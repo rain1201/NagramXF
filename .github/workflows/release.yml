@@ -68,22 +68,35 @@ jobs:
           path: ${{ env.APK }}
   upload:
     name: Upload release
-    if: ${{ github.event.inputs.upload != 'y' && !contains(github.event.head_commit.message, '[skip upload]') && secrets.HELPER_BOT_TOKEN != '' && secrets.HELPER_BOT_TARGET != '' }}
+    if: github.event.inputs.upload != 'y' && !contains(github.event.head_commit.message, '[skip upload]')
     runs-on: ubuntu-latest
     needs:
       - build
     steps:
+      - name: Check secrets
+        id: check_secrets
+        run: |
+          if [ -z "${{ secrets.HELPER_BOT_TOKEN }}" ] || [ -z "${{ secrets.HELPER_BOT_TARGET }}" ]; then
+            echo "Upload secrets not configured; skipping upload."
+            echo "skip_upload=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip_upload=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Checkout
+        if: steps.check_secrets.outputs.skip_upload != 'true'
         uses: actions/checkout@v4
       - name: Download Artifacts
+        if: steps.check_secrets.outputs.skip_upload != 'true'
         uses: actions/download-artifact@v4
         with:
           path: artifacts
       - name: Set up Python
+        if: steps.check_secrets.outputs.skip_upload != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: 3.12
       - name: Send to Telegram
+        if: steps.check_secrets.outputs.skip_upload != 'true'
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_HASH: ${{ secrets.APP_HASH }}
