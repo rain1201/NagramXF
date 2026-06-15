@@ -21,8 +21,8 @@ import tw.nekomimi.nekogram.config.ConfigItem;
 public abstract class AiConfig {
 
     public static final Service DEFAULT_SERVICE = new Service(
-            "https://chen-hai.ryzedns.org/v1",
-            "kimi-k2.6",
+            "https://api.openai.com/v1",
+            "gpt-4o",
             null
     );
 

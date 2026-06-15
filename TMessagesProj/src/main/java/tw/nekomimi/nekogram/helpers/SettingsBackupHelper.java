@@ -59,11 +59,6 @@ public final class SettingsBackupHelper {
 
         ArrayList<String> userconfig = new ArrayList<>();
         userconfig.add("saveIncomingPhotos");
-        userconfig.add("passcodeHash");
-        userconfig.add("passcodeType");
-        userconfig.add("passcodeHash");
-        userconfig.add("autoLockIn");
-        userconfig.add("useFingerprint");
         spToJSON("userconfing", configJson, userconfig::contains, isCloud);
 
         ArrayList<String> mainconfig = new ArrayList<>();

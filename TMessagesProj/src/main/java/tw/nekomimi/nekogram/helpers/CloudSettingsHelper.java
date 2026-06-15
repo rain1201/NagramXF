@@ -233,7 +233,7 @@ public class CloudSettingsHelper {
 
     private void syncToCloud(Utilities.Callback2<Boolean, String> callback) {
         try {
-            String settingsJson = SettingsBackupHelper.backupSettingsJson(true, 0);
+            String settingsJson = SettingsBackupHelper.backupSettingsJson(true, 0, false);
             String payload = gzipBase64Encode(settingsJson);
             int numChunks = (int) Math.ceil((double) payload.length() / MAX_CHUNK_CHARS);
             syncChunk(payload, 0, numChunks, MAX_CHUNK_CHARS, callback);
