@@ -3,7 +3,7 @@ name: Staging build
 on:
   push:
     branches:
-      - dev
+      - ndev
     paths-ignore:
       - '**.md'
       - '.github/**'
